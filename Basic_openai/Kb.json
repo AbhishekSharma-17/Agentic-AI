@@ -1,0 +1,53 @@
+{"records" : [
+    {
+        "id": 1,
+        "question": "What is your name?",
+        "answer": "My name is ChatGPT."
+    },
+    {
+        "id": 2,
+        "question": "What is the meaning of life?",
+        "answer": "The meaning of life is a philosophical question with many possible answers."
+    },
+    {
+        "id": 3,
+        "question": "How do I create a JSON file?",
+        "answer": "You can create a JSON file by writing a properly formatted JSON string to a file."
+    },
+    {
+        "id": 4,
+        "question": "What is Python?",
+        "answer": "Python is a popular, high-level programming language known for its readability and versatility."
+    },
+    {
+        "id": 5,
+        "question": "What is OpenAI?",
+        "answer": "OpenAI is an AI research and deployment company, recognized for developing advanced AI models such as GPT."
+    },
+    {
+        "id": 6,
+        "question": "How do I install Python packages?",
+        "answer": "You can install Python packages using pip, which is the package installer for Python."
+    },
+    {
+        "id": 7,
+        "question": "What is JSON?",
+        "answer": "JSON stands for JavaScript Object Notation, a lightweight data-interchange format that is easy for humans to read and write."
+    },
+    {
+        "id": 8,
+        "question": "How do I read a file in Python?",
+        "answer": "You can read a file in Python by using the built-in open() function, followed by methods such as read() or readline()."
+    },
+    {
+        "id": 9,
+        "question": "What is an API?",
+        "answer": "API stands for Application Programming Interface, which allows different software applications to communicate with each other."
+    },
+    {
+        "id": 10,
+        "question": "How do I use environment variables in Python?",
+        "answer": "You can use the os module in Python to access environment variables, for example by calling os.getenv('VARIABLE_NAME')."
+    }
+]
+}
