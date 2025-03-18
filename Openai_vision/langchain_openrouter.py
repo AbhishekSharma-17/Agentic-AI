@@ -7,7 +7,7 @@ from langchain_openai import ChatOpenAI
 load_dotenv()
 
 model = ChatOpenAI(model="google/gemma-3-27b-it", api_key=os.getenv("OPEN_ROUTER_API_KEY"),
-    base_url="https://openrouter.ai/api/v1")
+    base_url="https://openrouter.ai/api/v1",streaming=True)
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
@@ -34,5 +34,7 @@ prompt = ChatPromptTemplate.from_messages(
 
 chain = prompt | model
 
-response = chain.invoke({"image_data": image_data})
-print(response.content)
+response = chain.stream({"image_data": image_data})
+for chunk in response:
+    
+    print(chunk.content,flush=True,end="")

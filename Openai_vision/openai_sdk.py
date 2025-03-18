@@ -32,6 +32,10 @@ response = client.responses.create(
                 "image_url": image_url,
             },
         ],
+            
     }],
 )
+
+#while invoking
 print(response.output_text)
+

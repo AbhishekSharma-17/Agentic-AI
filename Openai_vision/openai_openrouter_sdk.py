@@ -38,8 +38,12 @@ response = client.chat.completions.create(
                 }
             ]
         }
-    ]
+    ],
+    stream=True
 )
 
-# Print the full JSON response
-print(response.choices[0].message.content)
+# print(response.choices[0].message.content)
+
+for chunk in response:
+        if chunk.choices[0].delta.content:
+            print(chunk.choices[0].delta.content, end="", flush=True)
