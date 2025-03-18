@@ -80,7 +80,6 @@ if __name__ == "__main__":
     # Print full response
     print(result)
     
-    if "choices" in result and len(result["choices"]) > 0:
-        answer = result["choices"][0]["message"]["content"]
-        print("\nAnswer:")
-        print(answer)
+    answer = result["choices"][0]["message"]["content"]
+    print("\nAnswer:")
+    print(answer)
