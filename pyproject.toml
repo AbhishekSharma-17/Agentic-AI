@@ -29,6 +29,7 @@ tantivy = "^0.22.2"
 yfinance = "0.2.28"
 exa-py = "^1.10.0"
 pyaudio = "^0.2.14"
+google-genai = "^1.9.0"
 
 
 [build-system]
