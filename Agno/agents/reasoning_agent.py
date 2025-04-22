@@ -2,7 +2,7 @@ from agno.agent import Agent
 from agno.models.aws import AwsBedrock
 from agno.models.openai import OpenAIChat
 from agno.tools.reasoning import ReasoningTools
-from agno.tools.yfinance import YFinanceTools
+from agno.tools.exa import ExaTools
 from dotenv import load_dotenv
 import os
 
@@ -18,12 +18,7 @@ agent = Agent(
     # model=OpenAIChat(id="o4-mini-2025-04-16"),
     tools=[
         ReasoningTools(add_instructions=True),
-        YFinanceTools(
-            stock_price=True,
-            analyst_recommendations=True,
-            company_info=True,
-            company_news=True,
-        ),
+        ExaTools(api_key=os.getenv("EXA_API_KEY"),)
     ],
     instructions=[
         "Use tables to display data.",
