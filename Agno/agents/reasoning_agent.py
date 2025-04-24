@@ -151,7 +151,6 @@ monitor_agent = Team(
         "Always use reasoning tool to make a decision",
         "Always use reasoning tool to combine the results of each subtask",
         "Always use reasoning tool to verify the results of each subtask",
-        "Always use deep Diverse Web Searcher agent atlest once in the process",
         "Do not generate resposne until you have substansial information to identify the claim as fact or false",
         "If there are multiple claims in the input, generate multiple output for each claim",
     ],
