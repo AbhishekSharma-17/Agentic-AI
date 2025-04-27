@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware # Import CORS Middleware
 from agno.agent import Agent
 from agno.team.team import Team
 from agno.models.openai import OpenAIChat
@@ -9,8 +10,18 @@ from agno.tools.reasoning import ReasoningTools
 from pydantic import BaseModel
 import os
 import uvicorn
+import json # Import json
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows all origins for testing
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods
+    allow_headers=["*"], # Allows all headers
+)
 
 web_search_agent = Agent(
     name="Web Searcher",
@@ -92,24 +103,37 @@ async def read_root():
 # New endpoint for running the team and streaming the response
 @app.post("/run-team")
 async def run_team_endpoint(request: ChatRequest):
-    """Endpoint to run the monitor_agent team and stream results."""
-    # Generator function to stream the agent's response
-    async def stream_agent_response(query: str):
-        """Runs the monitor_agent and yields response chunks."""
+    """Endpoint to run the monitor_agent team and stream results as NDJSON."""
+    # Generator function to stream the agent's response as JSON
+    async def stream_agent_response_json(query: str):
+        """Runs the monitor_agent and yields JSON response chunks."""
+        # Make sure to request intermediate steps and reasoning
         response_stream = monitor_agent.run(
             query,
             stream=True,
-            stream_intermediate_steps=True
+            show_full_reasoning=True, # Ensure this is True
+            stream_intermediate_steps=True # Ensure this is True
         )
         for chunk in response_stream:
-            # Ensure chunks are bytes for StreamingResponse
-            if isinstance(chunk, bytes):
-                yield chunk
-            else:
-                # Convert other types (like str) to bytes
-                # Ensure proper handling for different chunk types if needed
-                yield str(chunk).encode('utf-8')
-    return StreamingResponse(stream_agent_response(request.user_query), media_type="text/plain")
+            try:
+                # Convert the Agno response object (likely Pydantic) to a dict, then to JSON
+                # Use model_dump() for Pydantic v2+ or dict() for older versions if needed
+                if hasattr(chunk, 'model_dump'):
+                    chunk_dict = chunk.model_dump(mode='json')
+                elif hasattr(chunk, 'dict'):
+                     chunk_dict = chunk.dict()
+                else:
+                     # Fallback or handle non-Pydantic objects if necessary
+                     chunk_dict = {"event": "UnknownChunk", "content": str(chunk)}
+
+                json_string = json.dumps(chunk_dict)
+                yield f"{json_string}\n".encode('utf-8') # Yield JSON string + newline, encoded
+            except Exception as e:
+                # Log error or yield an error message if conversion fails
+                error_message = json.dumps({"error": f"Failed to serialize chunk: {e}", "chunk_type": str(type(chunk))})
+                yield f"{error_message}\n".encode('utf-8')
+
+    return StreamingResponse(stream_agent_response_json(request.user_query), media_type="application/x-ndjson")
 
 
 if __name__ == "__main__":
