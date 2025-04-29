@@ -156,7 +156,6 @@ monitor_agent = Team(
     ],
     markdown=True,
     add_datetime_to_instructions=True,
-    # response_model=FinalResponse,
     enable_agentic_context=True,
     add_member_tools_to_system_message=True,
     share_member_interactions=True,

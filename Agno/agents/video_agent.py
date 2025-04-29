@@ -10,10 +10,18 @@ load_dotenv()
 agent = Agent(
     model=Gemini(id="gemini-2.0-flash-exp",api_key=os.getenv("GEMINI_API_KEY")),
     markdown=True,
+    instructions=["give the video content just as it is word by word",
+                  "The output should be in english",
+                  "If the video is in any other language translate it to english",
+                  "The meaning of the video should be preserved when translated in english",
+                  "Do not add any comments, symbols  or anything else in the output",
+                  "The words and sentences statement should also be in english"
+                  ],
+    description="This agent is used to convert videos to text in english",
 )
 
 
-video_path = Path(__file__).parent.joinpath("test.mp4")
+video_path = Path(__file__).parent.joinpath("hindi_news.mp4")
 
 with open(video_path, "rb") as video_file:
 
@@ -22,7 +30,7 @@ with open(video_path, "rb") as video_file:
 
 # print(response.content)
 
-response = agent.run("explain the", videos=[Video(content=video_data, format="mp4")],stream=True)
+response = agent.run("give the video content just as it is word by word in English", videos=[Video(content=video_data, format="mp4")],stream=True)
 
 for res in response:
     print(res.content, end="", flush=True)
