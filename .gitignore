@@ -42,3 +42,7 @@ MANIFEST
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Secrets
+Agno/agents/client_secret.json
+Agno/agents/gmail_token.json
