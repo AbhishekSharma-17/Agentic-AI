@@ -1,0 +1,79 @@
+1
+00:00:00,000 --> 00:00:03,000
+What exactly is Generative AI?
+
+2
+00:00:03,000 --> 00:00:09,000
+When new content is created by artificial intelligence, it's called Generative AI.
+
+3
+00:00:09,000 --> 00:00:15,000
+This could involve generating texts and images, as well as videos, music or voices.
+
+4
+00:00:15,000 --> 00:00:21,000
+To do this, you describe in a chat dialogue box what you want the AI to create.
+
+5
+00:00:21,000 --> 00:00:24,000
+This description is called a prompt.
+
+6
+00:00:24,000 --> 00:00:28,000
+The Generative AI tools provide answers to all sorts of questions,
+
+7
+00:00:28,000 --> 00:00:33,000
+summarise complex information and generate diverse ideas quickly.
+
+8
+00:00:33,000 --> 00:00:41,000
+Depending on how they're used, they can create short stories, paintings, pieces of code or even musical compositions.
+
+9
+00:00:41,000 --> 00:00:50,000
+The foundation for this creation lies in large amounts of data that the AI system accesses to identify patterns and similarities.
+
+10
+00:00:50,000 --> 00:00:53,000
+The content produced by the AI is new.
+
+11
+00:00:53,000 --> 00:00:59,000
+It's often impressive and challenging to distinguish from things humans have made.
+
+12
+00:00:59,000 --> 00:01:03,000
+Generative AI can also be misused.
+
+13
+00:01:03,000 --> 00:01:10,000
+In so-called deepfakes, AI is utilised to produce images or videos that seem real.
+
+14
+00:01:12,000 --> 00:01:17,000
+AI-generated texts are also tough to recognise as machine-made.
+
+15
+00:01:17,000 --> 00:01:22,000
+Moreover, the AI can provide answers that sound correct but are actually incorrect.
+
+16
+00:01:22,000 --> 00:01:24,000
+This is called hallucinating.
+
+17
+00:01:24,000 --> 00:01:31,000
+The quality of what's created depends on both the quality of the data used and the quality of the prompts given.
+
+18
+00:01:33,000 --> 00:01:42,000
+To effectively utilise Generative AI, we need to learn how to guide the tools with meaningful prompts and use them thoughtfully.
+
+19
+00:01:42,000 --> 00:01:51,000
+Generative AI holds immense potential and can help us in many ways, such as serving as a writing or learning partner.
+
+20
+00:01:51,000 --> 00:01:57,000
+However, the AI should do the hard work and humans should be responsible for the facts.
