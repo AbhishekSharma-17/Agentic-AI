@@ -42,6 +42,7 @@ dependencies = [
     { name = "pypdf" },
     { name = "pyperclip" },
     { name = "python-dotenv" },
+    { name = "sarvamai" },
     { name = "slack-sdk" },
     { name = "tantivy" },
     { name = "tavily-python" },
@@ -81,6 +82,7 @@ requires-dist = [
     { name = "pypdf", specifier = ">=5.4.0,<6" },
     { name = "pyperclip", specifier = ">=1.9.0,<2" },
     { name = "python-dotenv", specifier = ">=1.0.1,<2" },
+    { name = "sarvamai", specifier = ">=0.1.0" },
     { name = "slack-sdk", specifier = ">=3.35.0" },
     { name = "tantivy", specifier = ">=0.22.2,<0.23" },
     { name = "tavily-python", specifier = ">=0.6.0" },
@@ -3270,6 +3272,21 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/67/4c/19db75e6405692b2a96af8f06d1258f8aa7290bdc35ac966f03e207f6d7f/safehttpx-0.1.6.tar.gz", hash = "sha256:b356bfc82cee3a24c395b94a2dbeabbed60aff1aa5fa3b5fe97c4f2456ebce42", size = 9987, upload_time = "2024-12-02T18:44:10.226Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4d/c0/1108ad9f01567f66b3154063605b350b69c3c9366732e09e45f9fd0d1deb/safehttpx-0.1.6-py3-none-any.whl", hash = "sha256:407cff0b410b071623087c63dd2080c3b44dc076888d8c5823c00d1e58cb381c", size = 8692, upload_time = "2024-12-02T18:44:08.555Z" },
+]
+
+[[package]]
+name = "sarvamai"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pydantic-core" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/27/71/e60c9c2abb9b1056f7c1c7e638249a7ef75d123c0bb7511033de6d9de5a4/sarvamai-0.1.0.tar.gz", hash = "sha256:40c45b47a3dfbc0958bfc953db2ca866ab06737845fc98c27638d72a54459019", size = 33398, upload_time = "2025-05-01T07:31:45.481Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/94/2a/f3e6d6924797bf5e62734f129e551f4ba77da023582bc61b13916910f68b/sarvamai-0.1.0-py3-none-any.whl", hash = "sha256:784c9688ad681f2ffd9ab6e79b95368cb4c02cb91753370a8a8470a827912479", size = 63558, upload_time = "2025-05-01T07:31:44.548Z" },
 ]
 
 [[package]]
