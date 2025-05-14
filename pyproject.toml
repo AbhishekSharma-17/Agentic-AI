@@ -45,6 +45,7 @@ dependencies = [
     "duckdb>=1.2.2",
     "atlassian-python-api>=4.0.4",
     "psycopg2-binary>=2.9.10",
+    "crawl4ai>=0.6.3",
 ]
 
 [tool.hatch.build.targets.sdist]
