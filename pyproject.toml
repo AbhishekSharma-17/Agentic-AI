@@ -43,6 +43,8 @@ dependencies = [
     "moviepy>=2.1.2",
     "sarvamai>=0.1.0",
     "duckdb>=1.2.2",
+    "atlassian-python-api>=4.0.4",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [tool.hatch.build.targets.sdist]
