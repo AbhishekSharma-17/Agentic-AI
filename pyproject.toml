@@ -42,6 +42,7 @@ dependencies = [
     "ffmpeg>=1.4",
     "moviepy>=2.1.2",
     "sarvamai>=0.1.0",
+    "duckdb>=1.2.2",
 ]
 
 [tool.hatch.build.targets.sdist]
