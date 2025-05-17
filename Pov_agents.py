@@ -1,20 +1,39 @@
+import json
 import os
+import uvicorn
 from dotenv import load_dotenv
 from agno.models.openai import OpenAIChat
 from agno.agent.agent import Agent
 from agno.tools.exa import ExaTools
 from agno.tools.reasoning import ReasoningTools
 from agno.team.team import Team
+from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware 
+from pydantic import BaseModel
+from typing import AsyncGenerator , cast
+from agno.run.response import RunEvent
+from agno.run.team import TeamRunResponse
 
 load_dotenv()
 
+app = FastAPI()
+
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # Allows all origins for testing
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods
+    allow_headers=["*"], # Allows all headers
+)
 
 # Research specialist for gathering accurate information
 research_agent = Agent(
     name="Research Specialist",
     model=OpenAIChat(id="gpt-4.1-mini"),
-    tools=[ExaTools(api_key=os.getenv('EXA_API_KEY'), show_results=True)],
+    tools=[ExaTools(api_key=os.getenv('EXA_API_KEY'), show_results=True,num_results=5)],
     description="Information gathering specialist who collects accurate, current and relevant data on specified topics",
     instructions=[
         "Research current information on the specified topic using search tools",
@@ -26,7 +45,8 @@ research_agent = Agent(
         "Gather statistical data on benefits and outcomes where available",
         "Use the exa tool to do web search to find relevant information",
         "Provide source attribution for all information",
-        "Prioritize recent information (within last 1-2 years when applicable)"
+        "Prioritize most recent and latest information",
+        "check for the current date and time provided"
     ],
     show_tool_calls=True,
     markdown=True,
@@ -125,8 +145,17 @@ pov_team = Team(
         
         "DELIVERY PHASE:",
         "17. Compile final enterprise POV document with consistent formatting",
-        "18. Format the final document using this exact enterprise POV structure:",
-        "    # [TITLE]",
+        "18. Format the final document enterprise POV structure:"
+    ],
+    markdown=True,
+    add_datetime_to_instructions=True,
+    enable_agentic_context=True,
+    share_member_interactions=True,
+    show_tool_calls=True,
+    enable_agentic_memory=True,
+    debug_mode=True,
+    expected_output="""
+    "    # [TITLE]",
         "    ",
         "    ## Executive Summary",
         "    [2-3 paragraphs explaining context, proposal, value, and intended audience]",
@@ -157,16 +186,56 @@ pov_team = Team(
         "    ",
         "    ## Sources",
         "    [List of references and citations used throughout the document]"
-    ],
-    markdown=True,
-    add_datetime_to_instructions=True,
-    enable_agentic_context=True,
-    share_member_interactions=True,
-    show_tool_calls=True,
-    enable_agentic_memory=True,
+    """
 )
 
-# Example usage:
-# result = pov_team.run("Create a technical POV on implementing Zero Trust Architecture in financial institutions")
-# or
-pov_team.print_response("Build a point of view for Agentic AI on health care", stream=True, markdown=True)
+class ChatRequest(BaseModel):
+    user_query: str
+
+@app.get("/")
+async def read_root():
+    return {"message": "Agentic AI FastAPI server is running"}
+
+@app.post("/pov-team")
+async def run_team_endpoint(request: ChatRequest):
+   
+    async def team_chat_response_streamer(
+            team: Team,
+            message: str,
+        ) -> AsyncGenerator:
+        try:
+            run_response = await team.arun(
+                message,
+                stream=True,
+                # stream_intermediate_steps=True,
+            )
+            async for run_response_chunk in run_response:
+                run_response_chunk = cast(TeamRunResponse, run_response_chunk)
+                if run_response_chunk.reasoning_content:
+                    yield "Reasoning:"
+                    yield run_response_chunk.reasoning_content
+                if run_response_chunk.content:
+                    yield "content"
+                    yield run_response_chunk.content
+                
+                
+        except Exception as e:
+            error_response = TeamRunResponse(
+                content=str(e),
+                event=RunEvent.run_error,
+            )
+            yield error_response.to_json()
+            return
+                    
+    return StreamingResponse(
+            team_chat_response_streamer(team=pov_team ,message=request.user_query), 
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+            }
+        )
+
+
+if __name__ == "__main__":
+    uvicorn.run("Pov_agents:app", host="127.0.0.1", port=8000, reload=True)
