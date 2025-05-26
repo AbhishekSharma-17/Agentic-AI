@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from composio_agno import ComposioToolSet, App
+from composio_agno import ComposioToolSet, App, Action
 from agno.agent.agent import Agent
 from agno.models.openai import OpenAIChat
 from database import db_manager
@@ -52,8 +52,6 @@ async def query_calendar_agent(data: dict):
             add_datetime_to_instructions=True,
             instructions=[
                 f"Today is {datetime.datetime.now()} and the user's timezone is {get_localzone_name()}",
-                f"User ID: {user_id}, Organization: {organization_id}",
-                f"Entity ID: {entity_id}",
                 "You are part of Kroolo Agents - an intelligent automation platform",
                 "List all the meetings and analyze the query to target correct meetings or events",
                 "For example, if the meeting title is 'Composio Integration' but user says 'composio meet', understand the semantic meaning and choose the correct meeting",
@@ -66,8 +64,8 @@ async def query_calendar_agent(data: dict):
             ]
         )
         
-        # Get response from agent
-        response = agent.print_response(query, stream=False)
+        # Use agent.run() to get RunResponse object
+        run_response = agent.run(query)
         
         # Update last used timestamp
         await auth_service.update_integration_status(
@@ -76,9 +74,22 @@ async def query_calendar_agent(data: dict):
             {"connection_metadata.last_used": datetime.datetime.utcnow()}
         )
         
+        # Extract serializable content from RunResponse
+        response_content = str(run_response.content) if run_response.content else "No response"
+        
+        # Convert messages to serializable format
+        messages_data = []
+        if hasattr(run_response, 'messages') and run_response.messages:
+            for msg in run_response.messages:
+                messages_data.append({
+                    "role": getattr(msg, 'role', 'unknown'),
+                    "content": str(getattr(msg, 'content', ''))
+                })
+        
         return {
             "success": True,
-            "response": response,
+            "response": response_content,
+            "messages": messages_data,
             "user_id": user_id,
             "organization_id": organization_id,
             "entity_id": entity_id,
@@ -112,11 +123,9 @@ async def get_calendar_events(
         entity_id = user_id
         
         # Execute calendar action
-        result = toolset.execute_action(
-            action="GOOGLECALENDAR_LIST_EVENTS",
-            params={"maxResults": 10, "timeMin": datetime.datetime.now().isoformat()},
-            entity_id=entity_id
-        )
+        list_event_tool = toolset.get_tools(actions=[Action.GOOGLECALENDAR_LIST_CALENDARS])
+        
+        
         
         if result.get("successful"):
             return {
@@ -161,7 +170,7 @@ async def create_calendar_event(data: dict):
         
         # Execute create event action
         result = toolset.execute_action(
-            action="GOOGLECALENDAR_CREATE_EVENT",
+            action="GOOGLECALENDAR_LIST_CALENDARS",
             params=event_data,
             entity_id=entity_id
         )
