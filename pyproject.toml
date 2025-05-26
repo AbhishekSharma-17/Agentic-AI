@@ -46,6 +46,7 @@ dependencies = [
     "atlassian-python-api>=4.0.4",
     "psycopg2-binary>=2.9.10",
     "crawl4ai>=0.6.3",
+    "composio-agno>=0.7.15",
 ]
 
 [tool.hatch.build.targets.sdist]
