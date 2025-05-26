@@ -47,6 +47,8 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "crawl4ai>=0.6.3",
     "composio-agno>=0.7.15",
+    "streamlit>=1.45.1",
+    "motor>=3.7.1",
 ]
 
 [tool.hatch.build.targets.sdist]
