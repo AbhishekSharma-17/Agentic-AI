@@ -91,7 +91,7 @@ audio_agent = Agent(
 
 
 finance_team = Team(
-    members=[web_agent, finance_agent, wikipedia_agent],
+    members=[web_agent, finance_agent, wikipedia_agent,shell_agent],
     model=OpenAIChat(id="gpt-4.1"),
     name="Finance Team",
     tools=[
