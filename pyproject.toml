@@ -49,6 +49,8 @@ dependencies = [
     "composio-agno>=0.7.15",
     "streamlit>=1.45.1",
     "motor>=3.7.1",
+    "panda-agi>=0.2.1",
+    "fal-client>=0.7.0",
 ]
 
 [tool.hatch.build.targets.sdist]
