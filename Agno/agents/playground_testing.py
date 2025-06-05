@@ -126,9 +126,10 @@ image_team = Team(
 
 
 app = Playground(
-    agents=[finance_agent, web_agent, shell_agent, sql_agent, wikipedia_agent, image_agent, audio_agent, model_agent ],
+    agents=[finance_agent, web_agent, shell_agent, sql_agent, wikipedia_agent, image_agent, audio_agent ],
     teams=[finance_team, image_team]
 ).get_app()
 
 if __name__ == "__main__":
-    serve_playground_app("test2:app", reload=True)
+    serve_playground_app("playground_testing:app", reload=True)
+    
