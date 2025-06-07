@@ -11,6 +11,7 @@ from agno.tools.wikipedia import WikipediaTools
 from agno.tools.reasoning import ReasoningTools
 from agno.tools.dalle import DalleTools
 from agno.tools.sql import SQLTools
+from agno.tools.tavily import TavilyTools
 
 load_dotenv()
 
@@ -34,7 +35,7 @@ web_agent = Agent(
     name="web_agent",
     role="search the web for information",
     model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[DuckDuckGoTools()],
+    tools=[TavilyTools(api_key=os.getenv("TAVILY_API_KEY"))],
     instructions="Always include sources",
      show_tool_calls=True,
      markdown=True
