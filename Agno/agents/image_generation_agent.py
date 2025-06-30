@@ -6,15 +6,24 @@ import requests
 import base64
 
 image_agent = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenAIChat(id="gpt-4.1"),
     tools=[DalleTools(quality="hd")],
     description="You are an AI agent that can generate images using DALL-E.",
     instructions="When the user asks you to create an image, use the `create_image` tool to create the image.",
     markdown=True,
+    name="Image_AGent",
     show_tool_calls=True,
 )
+from agno.playground import Playground, serve_playground_app
 
-response = image_agent.run("image of a shampoo bottle named something hindi")
+app = Playground(
+    agents=[image_agent],
+).get_app()
+
+if __name__ == "__main__":
+    serve_playground_app("image_generation_agent:app", reload=True)
+
+# response = image_agent.run("image of a shampoo bottle named something hindi")
 
 # images = image_agent.get_images()
 # if images and isinstance(images, list):
@@ -23,31 +32,31 @@ response = image_agent.run("image of a shampoo bottle named something hindi")
 #         print(image_url)
 
 #  Get images from the agent response
-images = image_agent.get_images()
-if images and isinstance(images, list):
-    for i, image_response in enumerate(images):
-        image_url = image_response.url
-        print(f"Image URL: {image_url}")
+# images = image_agent.get_images()
+# if images and isinstance(images, list):
+#     for i, image_response in enumerate(images):
+#         image_url = image_response.url
+#         print(f"Image URL: {image_url}")
         
-        # Create a timestamp for unique filenames
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+#         # Create a timestamp for unique filenames
+#         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         
-        # Download the image
-        response = requests.get(image_url)
-        if response.status_code == 200:
-            # Save original image
-            image_filename = f"generated_image_{timestamp}_{i}.png"
-            with open(image_filename, "wb") as img_file:
-                img_file.write(response.content)
-            print(f"Image saved to {image_filename}")
+#         # Download the image
+#         response = requests.get(image_url)
+#         if response.status_code == 200:
+#             # Save original image
+#             image_filename = f"generated_image_{timestamp}_{i}.png"
+#             with open(image_filename, "wb") as img_file:
+#                 img_file.write(response.content)
+#             print(f"Image saved to {image_filename}")
             
-            # Convert to base64
-            base64_encoded = base64.b64encode(response.content).decode('utf-8')
+#             # Convert to base64
+#             base64_encoded = base64.b64encode(response.content).decode('utf-8')
             
-            # Save base64 string to file
-            base64_filename = f"base64_image_{timestamp}_{i}.txt"
-            with open(base64_filename, "w") as b64_file:
-                b64_file.write(base64_encoded)
-            print(f"Base64 encoded data saved to {base64_filename}")
+#             # Save base64 string to file
+#             base64_filename = f"base64_image_{timestamp}_{i}.txt"
+#             with open(base64_filename, "w") as b64_file:
+#                 b64_file.write(base64_encoded)
+#             print(f"Base64 encoded data saved to {base64_filename}")
 
-print(response)
+# print(response)
