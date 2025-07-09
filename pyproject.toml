@@ -20,7 +20,6 @@ dependencies = [
     "pyperclip>=1.9.0,<2",
     "openai-agents>=0.0.3,<0.0.4",
     "wikipedia>=1.4.0,<2",
-    "agno>=1.2.6,<2",
     "duckduckgo-search>=7.5.5,<8",
     "pypdf>=5.4.0,<6",
     "lancedb>=0.21.2,<0.22",
@@ -51,6 +50,8 @@ dependencies = [
     "motor>=3.7.1",
     "panda-agi>=0.2.1",
     "fal-client>=0.7.0",
+    "agno>=1.5.10",
+    "mcp>=1.10.1",
 ]
 
 [tool.hatch.build.targets.sdist]
