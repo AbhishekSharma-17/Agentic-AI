@@ -46,7 +46,7 @@ def generate_image(prompt, api_key=None, output_path=None):
         "messages": [
             {
                 "role": "user",
-                "content": "Generate and image for "+prompt
+                "content": "Generate and image for " + prompt
             }
         ],
         "modalities": ["image"]
